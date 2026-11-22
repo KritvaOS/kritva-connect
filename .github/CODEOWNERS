@@ -1,0 +1,11 @@
+# Kritva Connect - code owners
+# Single owner: GitHub does not count a PR author's own approval, so merging needs a ruleset
+# bypass for the owner or a second reviewer. Copied in form from kritva-sense (program decision D-040).
+
+*                       @dineshannayya
+
+/.github/               @dineshannayya
+/SECURITY.md            @dineshannayya
+/LICENSE                @dineshannayya
+/ACCEPTANCE_CRITERIA.md @dineshannayya
+/docs/SECURITY_MODEL.md @dineshannayya

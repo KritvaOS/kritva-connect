@@ -8,7 +8,7 @@
 
 ## Context
 
-LiveKit token expiry is checked only at connection time; an already-connected participant stays connected and its reconnect token is refreshed by the SDK. Revocation exists on LiveKit Cloud only and lasts about 10 minutes. If two participants join with the same identity, the older is disconnected. A connected robot can therefore stay in a room through a RaaS outage.
+LiveKit token expiry is checked only at connection time; an already-connected participant stays connected and its reconnect token is refreshed by the SDK. Token revocation exists on LiveKit Cloud only and lasts about 10 minutes. On self-hosted LiveKit a connected participant can be removed, but removal does not invalidate the token for rejoining; the mitigation is short token lifetimes and no reissue after revocation. If two participants join with the same identity, the older is disconnected. A connected robot can therefore stay in a room through a RaaS outage.
 
 ## Decision
 
@@ -29,3 +29,10 @@ LiveKit token expiry is checked only at connection time; an already-connected pa
 ## Open items
 
 TPM or secure element on the target board; who performs enrollment; read-only versus disconnect when RaaS is down; maximum lease duration and renewal interval; token TTL 10 versus 30 minutes. All are owner policy questions.
+
+## Amendment 2026-11-22 (approved by the owner in chat)
+
+- Enrollment establishes device identity only. Every join of a LiveKit room needs a fresh, short-lived, session-bound authorization from RaaS, even for an enrolled device. A device token is limited to the device's authorized room, participant identity and media capabilities, and never grants Motion command authority.
+- Short token lifetimes, RaaS-side authorization checks, device revocation and gateway-side enforcement apply to every deployment type. LiveKit Cloud revocation is an additional control, not the foundation.
+- Device credential revocation (with enrollment) belongs with the RaaS Control Plane work in P3 (V2-M3). Session, participant and lease revocation, and the participant-token endpoint, belong with live-session work in P7 (V2-M7). The control-lease service is added only if the owner approves operator control in V2.
+- KOS-CONNECT-003 is staged to match: at V2-M3 it covers the enrollment contract, identity integration and a mocked participant-token exchange; at V2-M7 it integrates the real token endpoint.

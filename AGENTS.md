@@ -26,11 +26,11 @@ Kritva Connect owns: the provider-neutral connectivity API, the LiveKit adapter,
 - Exactly one footer line, `Task: KOS-CONNECT-NNN` or `Tasks: KOS-CONNECT-NNN, KOS-CONNECT-NNN`; a docs or chore commit that implements no task uses `Tasks: None (reason)`.
 - Merge method is a merge commit (kritva-program D-053). PRs use `.github/PULL_REQUEST_TEMPLATE.md`.
 - Never add a `Claude-Session:` trailer or a claude.ai session link to a commit or PR description.
-- Open a PR; do not push to `main`. The workflows and required checks used by the sibling repositories (secret-scan, commit-message-check, pr-acceptance-gate) are not yet set up here.
+- Open a PR; do not push to `main`. The `secret-scan`, `commit-message-check` and `tests` workflows run on every PR. `pr-acceptance-gate` is not set up here yet. Run `make check` before you push; it does not run `secret-scan`.
 
 ## 5. Tests
 
-No test or build targets exist yet. Add them with the first code task; an unimplemented target must exit 3 (NOT_IMPLEMENTED), never 0.
+`make test` runs the contract schema tests and the commit checker tests. No build target exists yet; add it with the first code task. An unimplemented target must exit 3 (NOT_IMPLEMENTED), never 0.
 
 ## 6. Tags and milestones
 

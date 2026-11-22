@@ -1,0 +1,28 @@
+# commit-message-check.yml: new commits carry no AI session trailers and follow the Connect commit format (AGENTS.md section 4).
+# Same control as kritva-program (D-032 follow-up, D-044). Existing history is not checked.
+
+name: commit-message-check
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  commit-message-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
+      - name: Test the commit message checkers
+        run: python3 -m unittest discover -s tests/commit_message_check -v
+      - name: No session trailers in this pull request
+        run: python3 scripts/security/check_commit_messages.py --range "origin/${{ github.base_ref }}..HEAD"
+      - name: Commit format (type(scope) header, one Task footer)
+        run: python3 scripts/security/check_commit_format.py --range "origin/${{ github.base_ref }}..HEAD"

@@ -8,22 +8,31 @@
 SHELL := /bin/bash
 PYTHON ?= python3
 NOT_IMPLEMENTED = 3
+PREFLIGHT_BASE ?= origin/main
 
 .DEFAULT_GOAL := help
-.PHONY: help test contract-test check build lint conformance integration status readme_check sync git_sync
+.PHONY: help test contract-test commit-test commit-check check build lint conformance integration status readme_check sync git_sync
 
 ##@ Help
 help: ## Show this list
 	@awk 'BEGIN{FS=":.*## "} /^##@/{printf "\n%s\n", substr($$0,5)} /^[a-zA-Z_-]+:.*## /{printf "  %-16s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
 
 ##@ Checks
-test: contract-test ## Run all implemented tests (today: the contract schema tests)
+test: contract-test commit-test ## Run all implemented tests (contract schema tests and commit checker tests)
 
 contract-test: ## Validate the draft contract schemas (needs: pip install jsonschema referencing)
 	@$(PYTHON) -c "import jsonschema, referencing" 2>/dev/null || { echo "missing Python packages: pip install jsonschema referencing" >&2; exit 2; }
 	@$(PYTHON) -m unittest discover -s contract/tests -v
 
-check: test ## Run every implemented check (same as test for now; CI workflows are not set up here yet)
+commit-test: ## Run the commit message checker tests
+	@$(PYTHON) -m unittest discover -s tests/commit_message_check -v
+
+commit-check: ## Check the commits since PREFLIGHT_BASE (default origin/main): no session trailers, commit format
+	@git fetch -q origin
+	@$(PYTHON) scripts/security/check_commit_messages.py --range "$(PREFLIGHT_BASE)..HEAD"
+	@$(PYTHON) scripts/security/check_commit_format.py --range "$(PREFLIGHT_BASE)..HEAD"
+
+check: test commit-check ## Run every implemented check (secret-scan runs in CI only)
 
 ##@ Not implemented yet (exit 3)
 build: ## Build the package (no code exists yet)

@@ -18,6 +18,23 @@ Status: PROVISIONAL, part of KOS-CONNECT-001. Must be kept in line with kritva-p
 5. Software or simulation acceptance is never labelled physical or safety validation. No physical-robot dependency while V2-M6 is on HOLD.
 6. No secrets, keys or LiveKit credentials in this repository.
 
+## RaaS and Connect boundary (owner-approved in chat, 2026-11-22)
+
+| Capability | Owner |
+|---|---|
+| Business session creation, authorization, expiry and cleanup | RaaS backend |
+| LiveKit room administration and participant-token issuance | RaaS backend (CONNECT-ADR-06) |
+| WebRTC signalling, ICE and provider media infrastructure | LiveKit; not rebuilt by Kritva |
+| Robot and lab-side LiveKit client, track publication, reconnect and transport recovery | Connect gateway |
+| Browser-side media client and video player | RaaS frontend, using the LiveKit JS SDK behind a small RaaS-owned media-client interface |
+| Telemetry meaning and schema | Sense |
+| Telemetry transport | Connect |
+| Telemetry ingestion, validation and durable storage | RaaS backend |
+| Telemetry panels | RaaS frontend |
+| Command lifecycle and local safety | Motion and Core; never delegated to Connect or LiveKit |
+
+Connect publishes a versioned media and session contract (session and room correlation, participant identity and role, track identity and metadata, publication lifecycle, reconnect and disconnect semantics, provider-independent error categories). It does not ship a browser SDK or UI component. V2 live work is observation-only unless the owner approves an operator command path; in that case a control lease and a Studio lease UI become required, as separate tasks.
+
 ## Open points
 
 - The Control Plane is a capability whose implementation owner is RaaS (program D-030), while program D-144 records a planned separate `kritva-control-plane` repository (proposed name, not created). Confirm which governs token and lease issuance before RaaS tasks are registered.

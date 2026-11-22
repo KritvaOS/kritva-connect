@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KritvaOS/kritva-connect/contract/media-session/participant-identity.schema.json",
+  "title": "Participant identity, DRAFT v0.1.0, CROSS-REPOSITORY REVIEW REQUIRED",
+  "description": "RaaS-owned proposal. RaaS assigns the identity; Connect validates the format and consumes it. The identity is never proof of Kritva device identity on its own. The pattern and length limits are unverified against LiveKit identity rules (2026-11-22) and are pending LiveKit compatibility validation.",
+  "type": "string",
+  "pattern": "^robot:[A-Za-z0-9_-]{1,64}:[A-Za-z0-9_-]{1,64}$"
+}

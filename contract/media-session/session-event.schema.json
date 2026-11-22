@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KritvaOS/kritva-connect/contract/media-session/session-event.schema.json",
+  "title": "Transport session event, DRAFT v0.1.0, CROSS-REPOSITORY REVIEW REQUIRED",
+  "description": "Transport connection events only (state_scope is always transport). Never business-session state and never robot safety state. freshness_lapsed means platform or transport freshness lapsed; it is not a Motion safety state. token_refresh_failed reports a failure; RaaS controls renewal and authorization. Provider-neutral: no provider types.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "state_scope", "event", "occurred_at", "session_ref", "participant_identity"],
+  "properties": {
+    "contract_version": { "const": "0.1.0" },
+    "state_scope": { "const": "transport" },
+    "event": {
+      "enum": ["joined", "reconnecting", "reconnected", "left", "freshness_lapsed", "publish_started", "publish_stopped", "token_refresh_failed"]
+    },
+    "occurred_at": { "type": "string", "format": "date-time" },
+    "session_ref": { "type": "string", "pattern": "^[A-Za-z0-9_.:-]{1,128}$" },
+    "participant_identity": { "$ref": "participant-identity.schema.json" },
+    "error": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "code"],
+      "properties": {
+        "category": { "enum": ["auth", "network", "provider", "config", "capacity", "policy"] },
+        "code": { "type": "string", "pattern": "^[a-z][a-z0-9_]{0,63}$" },
+        "message": { "type": "string", "maxLength": 512 }
+      }
+    }
+  },
+  "if": { "properties": { "event": { "const": "token_refresh_failed" } }, "required": ["event"] },
+  "then": { "required": ["error"] }
+}

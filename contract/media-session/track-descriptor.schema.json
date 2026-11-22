@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KritvaOS/kritva-connect/contract/media-session/track-descriptor.schema.json",
+  "title": "Track descriptor, DRAFT v0.1.0, CROSS-REPOSITORY REVIEW REQUIRED",
+  "description": "Transport and media track identity and lifecycle only. It defines no telemetry semantics. A video track is a media track; a data track carries a telemetry delivery channel, identified by channel_id.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "track_id", "kind", "state"],
+  "properties": {
+    "contract_version": { "const": "0.1.0" },
+    "track_id": { "type": "string", "pattern": "^[A-Za-z0-9_.:-]{1,128}$" },
+    "kind": { "enum": ["video", "data"] },
+    "channel_id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$" },
+    "state": { "enum": ["pending", "published", "stopped", "failed"] }
+  },
+  "if": { "properties": { "kind": { "const": "data" } }, "required": ["kind"] },
+  "then": { "required": ["channel_id"] },
+  "else": { "not": { "required": ["channel_id"] } }
+}

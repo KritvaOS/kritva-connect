@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KritvaOS/kritva-connect/contract/telemetry-delivery/envelope.schema.json",
+  "title": "Telemetry delivery envelope and gap notice, DRAFT v0.1.0, CROSS-REPOSITORY REVIEW REQUIRED",
+  "description": "Delivery metadata around an unchanged Sense stream record. The Sense record is opaque to Connect: it is never copied, redefined or reinterpreted, and the receiver validates it against the Sense stream contract version named in sense_stream_version (KritvaOS/kritva-sense, contract/stream.schema.json and STREAM_CONTRACT.md). delivery_sequence is a transport ordering number, monotonic per (channel_id, channel_epoch), and is not the Sense sample sequence. A gap_notice is a delivery event, not a Sense STREAM_SEQUENCE_GAP. gateway_sent_at is transport metadata and does not replace sensor or event time. Rules that a schema cannot express (missing_to >= missing_from, sequence order, epoch reset) are in contract/README.md and are checked by tests.",
+  "oneOf": [
+    { "$ref": "#/$defs/data_envelope" },
+    { "$ref": "#/$defs/gap_notice" }
+  ],
+  "$defs": {
+    "channel_id": { "type": "string", "pattern": "^[a-z][a-z0-9_-]{0,63}$" },
+    "seq": { "type": "integer", "minimum": 0 },
+    "data_envelope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_version", "kind", "delivery", "sense_stream_version", "sense_record"],
+      "properties": {
+        "contract_version": { "const": "0.1.0" },
+        "kind": { "const": "data" },
+        "delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["channel_id", "channel_epoch", "delivery_sequence", "gateway_sent_at"],
+          "properties": {
+            "channel_id": { "$ref": "#/$defs/channel_id" },
+            "channel_epoch": { "$ref": "#/$defs/seq" },
+            "delivery_sequence": { "$ref": "#/$defs/seq" },
+            "gateway_sent_at": { "type": "string", "format": "date-time" }
+          }
+        },
+        "sense_stream_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "sense_record": { "type": "object" }
+      }
+    },
+    "gap_notice": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_version", "kind", "delivery", "missing_from", "missing_to", "reason"],
+      "properties": {
+        "contract_version": { "const": "0.1.0" },
+        "kind": { "const": "gap_notice" },
+        "delivery": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["channel_id", "channel_epoch", "gateway_sent_at"],
+          "properties": {
+            "channel_id": { "$ref": "#/$defs/channel_id" },
+            "channel_epoch": { "$ref": "#/$defs/seq" },
+            "gateway_sent_at": { "type": "string", "format": "date-time" }
+          }
+        },
+        "missing_from": { "$ref": "#/$defs/seq" },
+        "missing_to": { "$ref": "#/$defs/seq" },
+        "reason": { "enum": ["dropped_lossy_channel", "buffer_overflow", "reconnect", "other_transport"] }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/KritvaOS/kritva-connect/contract/media-session/join-grant.schema.json",
+  "title": "RaaS-issued join grant consumed by Connect, DRAFT v0.1.0, CROSS-REPOSITORY REVIEW REQUIRED",
+  "description": "Connect's stated requirement for what it needs from RaaS to join a room. RaaS owns the final shape, issues the grant and owns device and tenant authorization, session validation, token creation and signing, room administration, renewal and revocation. The token is secret material: never log it, persist it or include it in a diagnostic dump. token_expires_at is information for connection handling only and does not make Connect the authority for token validity. There is deliberately no field for room administration or command authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "server_url", "session_ref", "participant_identity", "token", "token_expires_at", "media_capabilities"],
+  "properties": {
+    "contract_version": { "const": "0.1.0" },
+    "server_url": { "type": "string", "format": "uri", "pattern": "^wss://" },
+    "session_ref": {
+      "description": "Opaque correlation value. Connect does not interpret Job or Run business state from it.",
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_.:-]{1,128}$"
+    },
+    "participant_identity": { "$ref": "participant-identity.schema.json" },
+    "token": { "description": "Secret material.", "type": "string", "minLength": 1 },
+    "token_expires_at": { "type": "string", "format": "date-time" },
+    "media_capabilities": {
+      "description": "Media Connect may publish locally. RaaS authorizes the grant; Connect enforces only its own local media behaviour. Audio is deferred and is not a value in v0.1.",
+      "type": "array",
+      "items": { "enum": ["video", "telemetry"] },
+      "uniqueItems": true,
+      "minItems": 1
+    }
+  }
+}

@@ -8,7 +8,7 @@
 | Status | PROPOSED. Nothing here is a baseline, task, weight, estimate, gate or credit. |
 | Owner | Project owner (role) |
 | Reviewer/Approver | Not yet assigned; owner approval is provisional |
-| Version | 0.1 |
+| Version | 0.2 |
 | Last Updated | 2026-11-23 |
 | Authority | REFERENCE (index only; the linked records govern) |
 | Related Tasks/Milestones | None (record keeping) |
@@ -51,10 +51,11 @@ Baselining any task; any weight, estimate, credit or task ID; any SEC-GATE ID; a
 
 ## 4. Program links
 
-Not yet recorded. When `kritva-program` points here it will name this path and the commit it reviewed; until then this repository's records stand alone.
+Linked from the public program repository: `KritvaOS/kritva-program` `v2/DECISIONS.md` D-147, merged in pull request 137 (merge commit `1947861`). D-147 pins this register at commit `d3db3ee`. The link is an index entry only. It copies no row and does not make any row an accepted decision.
 
 ## 5. Change log
 
 | Date | Change |
 |---|---|
 | 2026-11-23 | Created from the cross-repository decision register that was kept as a project document |
+| 2026-11-23 | Program links filled in: `kritva-program` D-147, merge `1947861` |

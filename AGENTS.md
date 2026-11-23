@@ -13,6 +13,7 @@ Kritva Connect owns: the provider-neutral connectivity API, the LiveKit adapter,
 3. No empty folders, no placeholder tasks, no invented owners or dates. Add `src/`, `contract/` and other folders only when a real task needs them.
 4. Interfaces are contract-first and versioned. A breaking change needs a new MAJOR version, a changelog entry and an approved decision.
 5. Do not state anything about LiveKit or another repository as fact unless it was checked; mark it unverified with the date.
+6. A provisional owner approval that has not had an independent review gets a row, or an update to its row, in [planning/REVIEW_REGISTER.md](planning/REVIEW_REGISTER.md) in the same pull request that records it. The register links to the authoritative record and never copies decision text. A "Not yet recorded" row is not approved architecture.
 
 ## 3. Security rules specific to Connect
 

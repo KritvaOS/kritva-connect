@@ -15,6 +15,7 @@
 | Architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (PROVISIONAL) and [docs/adr/](docs/adr/README.md) |
 | Milestones | [planning/MILESTONE.md](planning/MILESTONE.md) (proposed, not in kritva-program) |
 | Tasks | [planning/TASKS.md](planning/TASKS.md) (proposed, not in kritva-program) |
+| Review Register | [planning/REVIEW_REGISTER.md](planning/REVIEW_REGISTER.md) (provisional owner approvals awaiting re-review) |
 | Acceptance Criteria | [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md) |
 | Status Reporting | None yet (see section 10) |
 | License | [LICENSE](LICENSE) (Apache License 2.0) |
@@ -53,13 +54,14 @@ Provisional. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), the decisions in 
 | 8 | [planning/DEPENDENCY_MAP.md](planning/DEPENDENCY_MAP.md) | PROPOSED | Provisional and hard dependencies |
 | 9 | [CONTRIBUTING.md](CONTRIBUTING.md) | AUTHORITATIVE for contribution steps | How to contribute |
 | 10 | [SECURITY.md](SECURITY.md) | AUTHORITATIVE for vulnerability reporting | How to report a vulnerability |
+| 11 | [planning/REVIEW_REGISTER.md](planning/REVIEW_REGISTER.md) | REFERENCE (index only, governs nothing); PROPOSED | Which provisional owner approvals await re-review, and where each one is recorded |
 
 ## 5. Repository Structure and File Responsibilities
 
 | Path | Responsibility |
 |---|---|
 | `docs/` | Architecture, ownership, security model, and `adr/` decision records |
-| `planning/` | Proposed tasks, milestones and dependencies |
+| `planning/` | Proposed tasks, milestones and dependencies, and the review register |
 | `tasks/` | One folder per defined task (task file and acceptance criteria) |
 | `.github/` | Code owners and the pull request template |
 | `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`, `AGENTS.md`, `ACCEPTANCE_CRITERIA.md` | Governance |
@@ -92,7 +94,7 @@ Nothing to build or test yet.
 
 ## 12. Git Workflow and Review
 
-Branch from `main`, open a pull request, merge commit. Commit format and footer rules are in [AGENTS.md](AGENTS.md). Code owners are in `.github/CODEOWNERS`. The workflows used by sibling repositories are not yet set up here.
+Branch from `main`, open a pull request, merge commit. Commit format and footer rules are in [AGENTS.md](AGENTS.md). Code owners are in `.github/CODEOWNERS`. A provisional owner approval is indexed in [planning/REVIEW_REGISTER.md](planning/REVIEW_REGISTER.md) in the same pull request that records it. The workflows used by sibling repositories are not yet set up here.
 
 ## 13. Safety and Security
 

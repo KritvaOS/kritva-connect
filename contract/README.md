@@ -1,6 +1,6 @@
 # Connect Contracts (DRAFT, CROSS-REPOSITORY REVIEW REQUIRED)
 
-Status: **DRAFT v0.1.0. No accepted contract identifier exists. No implementation credit.** These drafts were prepared for task KOS-CONNECT-001 (planning only). They are owner-approved to draft (decision register REV-04), not accepted. RaaS, Connect and Sense maintainers must agree on content and version before any identifier is assigned.
+Status: **DRAFT v0.1.0. No accepted contract identifier exists. No implementation credit.** These drafts were prepared for task KOS-CONNECT-001 (planning only). They are owner-approved to draft ([review register](../planning/REVIEW_REGISTER.md), CONNECT-REV-02), not accepted. RaaS, Connect and Sense maintainers must agree on content and version before any identifier is assigned.
 
 ## Rule to preserve
 
@@ -31,7 +31,7 @@ Sense defines what telemetry means. Connect defines how it is delivered. RaaS de
 3. A receiver detects a missing range when a received `delivery_sequence` is greater than the previous plus one. A `gap_notice` lets the gateway state the missing range (`missing_from` to `missing_to`, inclusive, `missing_to >= missing_from`) and a reason when it knows it dropped envelopes. A gap notice is a delivery event. It is not a Sense `STREAM_SEQUENCE_GAP`, which stays a Sense diagnostic.
 4. Channel recreation (for example after a reconnect that loses state) starts a new `channel_epoch` and resets `delivery_sequence` to 0. A receiver never compares sequence numbers across epochs.
 5. `gateway_sent_at` is transport metadata. It does not replace sensor or event time inside the Sense record.
-6. Reliable and lossy behaviour, buffer limits, overflow and recovery after reconnect are not defined in v0.1 and need the gateway contract (decision register REV-10).
+6. Reliable and lossy behaviour, buffer limits, overflow and recovery after reconnect are not defined in v0.1 and need the gateway contract ([review register](../planning/REVIEW_REGISTER.md), CONNECT-REV-05).
 
 ## Versioning
 

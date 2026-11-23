@@ -1,6 +1,6 @@
 # kritva-connect
 
-> Planning and governance repository for Kritva Connect, the connectivity and real-time communication layer of the Kritva OS V2 plan, built to work with LiveKit. The repository holds the accepted architecture decision records, provisional architecture, ownership and security-model documents, and the proposed task list. There is no code, no contract schema, no CI and no test yet, and nothing here is registered in kritva-program.
+> Planning and governance repository for Kritva Connect, the connectivity and real-time communication layer of the Kritva OS V2 plan, built to work with LiveKit. The repository holds the accepted architecture decision records, provisional architecture, ownership and security-model documents, and the proposed task list. There is no connectivity code yet. Draft contract schemas (not accepted), their tests and three CI workflows exist, and nothing here is registered in kritva-program.
 
 | Property | Value |
 |---|---|
@@ -15,11 +15,12 @@
 | Architecture | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (PROVISIONAL) and [docs/adr/](docs/adr/README.md) |
 | Milestones | [planning/MILESTONE.md](planning/MILESTONE.md) (proposed, not in kritva-program) |
 | Tasks | [planning/TASKS.md](planning/TASKS.md) (proposed, not in kritva-program) |
+| Review Register | [planning/REVIEW_REGISTER.md](planning/REVIEW_REGISTER.md) (provisional owner approvals awaiting re-review) |
 | Acceptance Criteria | [ACCEPTANCE_CRITERIA.md](ACCEPTANCE_CRITERIA.md) |
 | Status Reporting | None yet (see section 10) |
 | License | [LICENSE](LICENSE) (Apache License 2.0) |
 
-This README is a navigation map; the documents it links own the detail. It was written following the section layout of the sibling repositories' READMEs, and the Kritva README standard check has not been run on it.
+This README is a navigation map; the documents it links own the detail. It was written following the section layout of the sibling repositories' READMEs, and the README standard check is not run by this repository's CI (`make readme_check` points to the kritva-program checker).
 
 ## 1. Purpose and Scope
 
@@ -29,7 +30,7 @@ Kritva Connect is planned to carry audio, video, telemetry and operator interact
 
 **This repository does not own**: identity, authorization, device enrollment, token and lease issuance and durable telemetry (kritva-raas); sensor data semantics (kritva-sense); motion command lifecycle and fault semantics (kritva-motion); LiveKit project configuration and secrets (private `kritva-connect-deployment`). Connect is not a safety controller.
 
-**Implementation state.** Documents only. Nothing is implemented.
+**Implementation state.** Documents, draft contract schemas with schema tests, and CI scripts. No connectivity code, provider adapter or gateway is implemented.
 
 ## 2. Position in the KritvaOS Ecosystem
 
@@ -53,26 +54,30 @@ Provisional. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md), the decisions in 
 | 8 | [planning/DEPENDENCY_MAP.md](planning/DEPENDENCY_MAP.md) | PROPOSED | Provisional and hard dependencies |
 | 9 | [CONTRIBUTING.md](CONTRIBUTING.md) | AUTHORITATIVE for contribution steps | How to contribute |
 | 10 | [SECURITY.md](SECURITY.md) | AUTHORITATIVE for vulnerability reporting | How to report a vulnerability |
+| 11 | [planning/REVIEW_REGISTER.md](planning/REVIEW_REGISTER.md) | REFERENCE (index only, governs nothing); PROPOSED | Which provisional owner approvals await re-review, and where each one is recorded |
 
 ## 5. Repository Structure and File Responsibilities
 
 | Path | Responsibility |
 |---|---|
 | `docs/` | Architecture, ownership, security model, and `adr/` decision records |
-| `planning/` | Proposed tasks, milestones and dependencies |
+| `planning/` | Proposed tasks, milestones and dependencies, and the review register |
 | `tasks/` | One folder per defined task (task file and acceptance criteria) |
-| `.github/` | Code owners and the pull request template |
+| `contract/` | Draft contract schemas (v0.1.0, not accepted) and their schema tests; see [contract/README.md](contract/README.md) |
+| `scripts/security/` | Commit message and commit format checkers used by `make commit-check` and CI |
+| `tests/` | Tests for the commit checkers |
+| `.github/` | Code owners, the pull request template and the `secret-scan`, `commit-message-check` and `tests` workflows |
 | `LICENSE`, `SECURITY.md`, `CONTRIBUTING.md`, `AGENTS.md`, `ACCEPTANCE_CRITERIA.md` | Governance |
 
-`contract/`, `src/` and `tests/` are added by the tasks that need them.
+`src/` and further `tests/` are added by the tasks that need them.
 
 ## 6. Toolchain and Development Workflow
 
-Python is the planned default language (CONNECT-ADR-02). No toolchain, build or test target exists yet. Workflow: branch, pull request, merge commit; see [CONTRIBUTING.md](CONTRIBUTING.md).
+Python is the planned default language (CONNECT-ADR-02). `make test` runs the contract schema tests and the commit checker tests, and `make check` also runs the commit check. No build, lint, conformance or integration target is implemented yet; each exits 3 (NOT_IMPLEMENTED). Workflow: branch, pull request, merge commit; see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 7. Dependencies and Interfaces
 
-Depends on LiveKit (first provider), on RaaS for identity, tokens and leases, and on the Sense stream contract. No interface is published yet; contracts will be versioned JSON Schema (CONNECT-ADR-05). See [planning/DEPENDENCY_MAP.md](planning/DEPENDENCY_MAP.md).
+Depends on LiveKit (first provider), on RaaS for identity, tokens and leases, and on the Sense stream contract. No contract is accepted yet; draft v0.1.0 JSON Schemas are in [contract/](contract/README.md) and contracts stay versioned JSON Schema (CONNECT-ADR-05). See [planning/DEPENDENCY_MAP.md](planning/DEPENDENCY_MAP.md).
 
 ## 8. Milestones and Implementation Plan
 
@@ -92,7 +97,7 @@ Nothing to build or test yet.
 
 ## 12. Git Workflow and Review
 
-Branch from `main`, open a pull request, merge commit. Commit format and footer rules are in [AGENTS.md](AGENTS.md). Code owners are in `.github/CODEOWNERS`. The workflows used by sibling repositories are not yet set up here.
+Branch from `main`, open a pull request, merge commit. Commit format and footer rules are in [AGENTS.md](AGENTS.md). Code owners are in `.github/CODEOWNERS`. A provisional owner approval is indexed in [planning/REVIEW_REGISTER.md](planning/REVIEW_REGISTER.md) in the same pull request that records it. The `secret-scan`, `commit-message-check` and `tests` workflows run on every pull request; `pr-acceptance-gate` is not set up here yet.
 
 ## 13. Safety and Security
 

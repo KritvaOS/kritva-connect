@@ -17,4 +17,4 @@ The `CONNECT-ADR` prefix avoids confusion with kritva-program decision IDs (`D-0
 | [CONNECT-ADR-09](CONNECT-ADR-09.md) | Provider-neutral robot and simulator interfaces | D9 |
 | [CONNECT-ADR-10](CONNECT-ADR-10.md) | Device identity, leases and revocation | D11 |
 
-An ADR changes only by a new ADR or an owner-approved amendment with a changelog entry.
+An ADR changes only by a new ADR or an owner-approved amendment with a changelog entry. Provisional owner approvals awaiting independent review, including decisions that have no ADR yet, are indexed in [planning/REVIEW_REGISTER.md](../../planning/REVIEW_REGISTER.md); the ADRs stay the authoritative records.

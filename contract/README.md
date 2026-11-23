@@ -39,4 +39,4 @@ SemVer. All v0.x drafts may change without notice. A breaking change after accep
 
 ## Tests
 
-`python3 -m unittest discover -s contract/tests` needs the `jsonschema` package. The tests check that each schema is valid JSON Schema 2020-12 and that the examples in the test file behave as expected. They are software checks of the draft, not hardware or safety validation. No CI runs them yet.
+`python3 -m unittest discover -s contract/tests` needs the `jsonschema` package. The tests check that each schema is valid JSON Schema 2020-12 and that the examples in the test file behave as expected. They are software checks of the draft, not hardware or safety validation. The `tests` workflow runs them on every pull request.
